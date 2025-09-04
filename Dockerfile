@@ -24,11 +24,9 @@ RUN mkdir -p database \
 # 7. Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# 8. Run migrations
-RUN php artisan migrate
-
-# 9. Expose port
+# 8. Expose port
 EXPOSE 10000
 
-# 10. Start Laravel server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
+# 9. Start Laravel server
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
+
