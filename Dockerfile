@@ -28,4 +28,5 @@ EXPOSE 10000
 # 9️⃣ Run migrations safely and start Laravel
 #    --force ensures migrations run without confirmation
 #    Existing tables are ignored by Laravel, so no drops
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
+CMD php artisan serve --host=0.0.0.0 --port=10000
+
