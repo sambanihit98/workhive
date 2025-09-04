@@ -1,31 +1,27 @@
-# Use official PHP CLI image
 FROM php:8.2-cli
 
-# Install system dependencies and PHP extensions Laravel needs
+# Install PHP extensions Laravel needs
 RUN apt-get update && apt-get install -y \
-    unzip \
-    zip \
-    git \
-    libzip-dev \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
+    unzip zip git libzip-dev libpng-dev libonig-dev libxml2-dev zlib1g-dev g++ make \
+    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd intl zip
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Set working directory
 WORKDIR /app
 
-# Copy project files
+# Copy all project files
 COPY . .
 
-# Install PHP dependencies
+# Add temporary .env with APP_KEY to prevent artisan failures
+RUN echo "APP_KEY=base64:GI+O0El4hJxr4I/3oPapMYNqQEWP55x3Z8E1sryyiuk=" > .env \
+    && echo "DB_CONNECTION=sqlite" >> .env \
+    && touch database/database.sqlite
+
+# Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Expose Render port
 EXPOSE 10000
 
-# Start Laravel server
+# Start Laravel
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
