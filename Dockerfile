@@ -1,6 +1,7 @@
+# Use official PHP CLI image
 FROM php:8.2-cli
 
-# Install PHP extensions Laravel needs
+# Install system dependencies and PHP extensions Laravel needs
 RUN apt-get update && apt-get install -y \
     unzip \
     zip \
@@ -14,17 +15,17 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# Set working directory
 WORKDIR /app
 
-# Copy all files
+# Copy project files
 COPY . .
 
-# Install PHP dependencies only
+# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Generate APP_KEY (optional if not in .env)
-# RUN php artisan key:generate
-
+# Expose Render port
 EXPOSE 10000
 
+# Start Laravel server
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
