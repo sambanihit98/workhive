@@ -1,33 +1,37 @@
-# 1️ Base image with PHP 8.3 CLI
-FROM php:8.3-cli
-
-# 2️ Install system dependencies, PHP extensions, Node.js, and npm
-RUN apt-get update && apt-get install -y \
-    unzip zip git curl libzip-dev libpng-dev libonig-dev libxml2-dev zlib1g-dev g++ make libicu-dev libpq-dev nodejs npm \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd intl zip \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# 3️ Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# 4️ Set working directory
+# Stage 1 - PHP dependencies
+FROM composer:2 AS vendor
 WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# 5️ Copy project files
-COPY . .
-
-# 6️ Set folder permissions
-RUN chmod -R 777 storage bootstrap/cache
-
-# 7️ Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# 8️ Install Node.js dependencies and build Vite assets
+# Stage 2 - Node build (Vite)
+FROM node:18 AS frontend
+WORKDIR /app
+COPY package.json package-lock.json ./
 RUN npm install
+COPY . .
 RUN npm run build
 
-# 9 Expose port
-EXPOSE 10000
+# Stage 3 - Final image with PHP 8.3
+FROM php:8.3-fpm
 
-# 1️0 Start Laravel server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    zip unzip git curl \
+    && docker-php-ext-install pdo pdo_pgsql
+
+WORKDIR /app
+
+# Copy backend (PHP) files
+COPY --from=vendor /app/vendor ./vendor
+COPY . .
+
+# Copy frontend build (public/build) from Node stage
+COPY --from=frontend /app/public/build ./public/build
+
+# Expose port
+EXPOSE 8000
+
+# Start Laravel
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
