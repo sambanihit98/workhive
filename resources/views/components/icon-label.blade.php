@@ -1,0 +1,1 @@
+<span class="ms-3 flex gap-x-2 items-center">{{ $slot }}</span>
