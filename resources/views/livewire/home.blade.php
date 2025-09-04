@@ -1,4 +1,4 @@
-<div class="space-y-10">dsa dsa
+<div class="space-y-10">
     {{-- ------------------------------------------------------------------------------------------------------------ --}}
     {{-- Hero / Banner Section --}}
     <section class="relative flex items-center justify-center h-[110vh] bg-cover bg-center" 
