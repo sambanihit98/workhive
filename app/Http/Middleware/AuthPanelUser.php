@@ -17,43 +17,46 @@ class AuthPanelUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-
-
-        // if (Auth::guard('admin')->check()) {
-        //     Auth::shouldUse('admin');
-        //     return $next($request);
-        // }
-
-        // if (Auth::guard('employer')->check()) {
-        //     Auth::shouldUse('employer');
-        //     return $next($request);
-        // }
-
-        // Attempt to get the export ID from the route parameter
-        $exportId = $request->route('export');
-
-        if (is_object($exportId) && $exportId instanceof Export) {
-            $export = $exportId;
-        } else {
-            $export = Export::find($exportId);
-        }
-
-        if (! $export) {
-            abort(404, 'Export not found.');
-        }
-
-        // Determine the guard from the user_type on the export
-        $guard = match ($export->user_type) {
-            \App\Models\Admin::class => 'admin',
-            \App\Models\Employer::class => 'employer',
-            default => null,
-        };
-
-        if ($guard && Auth::guard($guard)->check()) {
-            Auth::shouldUse($guard);
+        // Check panel guards first
+        if (Auth::guard('admin')->check()) {
+            Auth::shouldUse('admin');
             return $next($request);
         }
 
-        abort(403, 'Unauthorized.');
+        if (Auth::guard('employer')->check()) {
+            Auth::shouldUse('employer');
+            return $next($request);
+        }
+
+        // Export-specific logic
+        $exportId = $request->route('export');
+
+        if ($exportId) {
+            if (is_object($exportId) && $exportId instanceof Export) {
+                $export = $exportId;
+            } else {
+                $export = Export::find($exportId);
+            }
+
+            if (! $export) {
+                abort(404, 'Export not found.');
+            }
+
+            $guard = match ($export->user_type) {
+                \App\Models\Admin::class => 'admin',
+                \App\Models\Employer::class => 'employer',
+                default => null,
+            };
+
+            if ($guard && Auth::guard($guard)->check()) {
+                Auth::shouldUse($guard);
+                return $next($request);
+            }
+
+            abort(403, 'Unauthorized.');
+        }
+
+        // If not export route, just continue (or redirect as needed)
+        return $next($request);
     }
 }
