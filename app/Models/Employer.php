@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Employer extends Authenticatable
+class Employer extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\EmployerFactory> */
     use HasFactory;
