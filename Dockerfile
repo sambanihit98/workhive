@@ -26,8 +26,11 @@ RUN composer install --no-dev --optimize-autoloader
 RUN npm install
 RUN npm run build
 
-# 9 Expose port
+# 9️ Create storage symlink (ignore error if already exists)
+RUN php artisan storage:link || true
+
+# 10 Expose port
 EXPOSE 10000
 
-# 1️0 Start Laravel server
+# 1️1 Start Laravel server
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
