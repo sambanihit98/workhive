@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Panel;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,5 +30,10 @@ class Admin extends Authenticatable
     public function getFilamentName(): string
     {
         return $this->name ?? 'Admin';
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true; //access panel in production
     }
 }
