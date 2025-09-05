@@ -24,7 +24,7 @@
 
                         {{-- Job Description --}}
                         <p class="mt-2 text-sm text-gray-600 leading-relaxed">
-                            {{ Str::limit($job->description, 120) }}
+                            {{ Str::limit(strip_tags($job->description), 120) }}
                         </p>
 
                          <!-- Employment Type & Salary -->
