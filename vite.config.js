@@ -12,5 +12,6 @@ export default defineConfig({
     ],
     build: {
         outDir: 'public/build', // ensure assets go here
+        emptyOutDir: true, // clears old assets
     },
 });

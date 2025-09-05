@@ -1,33 +1,32 @@
-# 1️ Base image with PHP 8.3 CLI
+# 1. Base image
 FROM php:8.3-cli
 
-# 2️ Install system dependencies, PHP extensions, Node.js, and npm
+# 2. Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
-    unzip zip git curl libzip-dev libpng-dev libonig-dev libxml2-dev zlib1g-dev g++ make libicu-dev libpq-dev nodejs npm \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd intl zip \
+    unzip zip git curl nodejs npm libzip-dev libpng-dev libonig-dev libxml2-dev zlib1g-dev g++ make libicu-dev \
+    && docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd intl zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 3️ Install Composer
+# 3. Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# 4️ Set working directory
+# 4. Set working directory
 WORKDIR /app
 
-# 5️ Copy project files
+# 5. Copy all project files
 COPY . .
 
-# 6️ Set folder permissions
+# 6. Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# 7. Install Node dependencies and build frontend
+RUN npm install && npm run build
+
+# 8. Set permissions
 RUN chmod -R 777 storage bootstrap/cache
 
-# 7️ Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# 8️ Install Node.js dependencies and build Vite assets
-RUN npm install
-RUN npm run build
-
-# 9 Expose port
+# 9. Expose port
 EXPOSE 10000
 
-# 1️0 Start Laravel server
+# 10. Start Laravel
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
