@@ -3,7 +3,7 @@
     <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
         <!-- Logo -->
         <div class="flex-shrink-0">
-            <img src="{{ asset($employer->logo) }}" alt="{{ $employer->name }} Logo" class="w-32 h-32 object-contain rounded-xl shadow-md">
+            <img src="{{ asset('storage/' . $employer->logo) }}" alt="{{ $employer->name }} Logo" class="w-32 h-32 object-contain rounded-xl shadow-md">
         </div>
 
         <!-- Company Info -->

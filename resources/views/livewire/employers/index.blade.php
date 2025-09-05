@@ -34,7 +34,7 @@
                         {{-- Logo & Basic Info --}}
                         <div class="flex items-center gap-4 mb-4">
                             @if($employer->logo)
-                                <img src="{{ $employer->logo }}" 
+                                <img src="{{ asset('storage/' . $employer->logo) }}" 
                                      alt="{{ $employer->name }}" 
                                      class="h-12 w-12 rounded-full object-cover border border-gray-200">
                             @else
