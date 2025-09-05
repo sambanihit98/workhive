@@ -42,6 +42,18 @@
 
         <x-forms.divider/>
 
+        <!-- Address -->
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">🏠 Company Address</h2>
+        <div class="grid gap-6 mb-8 md:grid-cols-2">
+            <x-forms.input label="Street" wire:model="street" name="street" type="text"/>
+            <x-forms.input label="Barangay" wire:model="barangay" name="barangay" type="text"/>
+            <x-forms.input label="City" wire:model="city" name="city" type="text"/>
+            <x-forms.input label="Province" wire:model="province" name="province" type="text"/>
+            <x-forms.input label="ZIP Code" wire:model="zip_code" name="zip_code" type="text"/>
+        </div>
+
+        <x-forms.divider/>
+
         <!-- Security -->
         <h2 class="text-xl font-semibold text-gray-800 mb-4">🔒 Security</h2>
         <div class="grid gap-6 mb-8 md:grid-cols-2">
