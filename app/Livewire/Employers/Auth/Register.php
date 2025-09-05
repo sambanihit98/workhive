@@ -40,6 +40,7 @@ class Register extends Component
             'description'         => $validated['description'],
             'type'                => $validated['type'],
             'number_of_employees' => $validated['number_of_employees'],
+            'logo'                => 'logos/default-company-logo.png',
         ]);
 
         // Log in the user
