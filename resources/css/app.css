@@ -33,6 +33,10 @@
     animation: scale-pulse 1s ease-in-out infinite;
   }
 }
+
+[x-cloak] { display: none !important; }
+
+
 /* -------------------------------- */
 /* -------------------------------- */
 

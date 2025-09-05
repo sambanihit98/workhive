@@ -1,9 +1,5 @@
 @include('partials.header')
 
-{{-- @php
-    $isEmployerRoute = request()->is('employer/*');
-@endphp --}}
-
 <div>
     <nav class="fixed top-0 left-0 w-full z-50 bg-[color:#1a2e44] shadow-sm" x-data="{ open: false }">
         <div class="flex justify-between items-center py-3 max-w-[1200px] mx-auto px-4 sm:px-0">
@@ -59,23 +55,29 @@
             </div>
         </div>
 
-        {{-- Mobile Slide-in Menu --}}
-        <div x-show="open" 
-            class="fixed inset-0 z-40"
-            x-transition.opacity
-            @click="open = false">
+        {{-- Mobile Overlay --}}
+        <div x-show="open" x-cloak
+             class="fixed inset-0 z-40 bg-black/30"
+             x-transition.opacity
+             @click="open = false">
         </div>
 
-        <div 
-            class="fixed top-0 right-0 h-full w-64 bg-[color:#1a2e44] text-white transform transition-transform duration-300 ease-in-out z-50 flex flex-col p-6 space-y-4 md:hidden"
-            :class="open ? 'translate-x-0' : 'translate-x-full'"
-            x-transition>
-            
+        {{-- Mobile Slide-in Menu --}}
+        <div x-show="open" x-cloak
+             x-transition:enter="transition transform duration-300 ease-out"
+             x-transition:enter-start="translate-x-full opacity-0"
+             x-transition:enter-end="translate-x-0 opacity-100"
+             x-transition:leave="transition transform duration-300 ease-in"
+             x-transition:leave-start="translate-x-0 opacity-100"
+             x-transition:leave-end="translate-x-full opacity-0"
+             class="fixed top-0 right-0 h-full w-64 bg-[color:#1a2e44] text-white z-50 flex flex-col p-6 space-y-4 md:hidden">
+
             {{-- Close button --}}
             <button @click="open = false" class="self-end text-white mb-6 focus:outline-none">
                 ✕
             </button>
 
+            {{-- Menu Links --}}
             <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
             <x-nav-link href="/jobs" :active="request()->is('jobs', 'jobs/*', 'search/jobs')">Jobs</x-nav-link>
             <x-nav-link href="/employers" :active="request()->is('employers*', 'search/employers')">Employers</x-nav-link>
