@@ -55,7 +55,7 @@ class Register extends Component
 
         // Create employer address
         $employerAddress = Arr::only($validated, ['street', 'barangay', 'city', 'province', 'zip_code']);
-        $employer->employer_address()->create($employerAddress);
+        $employer->employer_addresses()->create($employerAddress);
 
         // Log in the user
         Auth::guard('employer')->login($employer);
