@@ -24,6 +24,7 @@ class Home extends Component
 
         $employers = Employer::withCount('jobs')
             ->orderByDesc('jobs_count')
+            ->withAvg('reviews', 'rating') // ⬅️ calculates average rating
             ->take(5)
             ->get();
 

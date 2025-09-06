@@ -106,42 +106,60 @@
             <!-- Employers List -->
             <div class="mt-6 space-y-4">
                 @foreach ($employers as $employer)
-                    <a href="/employers/{{ $employer->id }}" 
-                        class="group block p-6 bg-white border border-gray-200 rounded-2xl shadow-sm 
-                            hover:shadow-lg hover:border-blue-400 transition-all duration-300 ease-in-out">
+                    <div class="group p-6 bg-white rounded-2xl border border-gray-200 shadow-sm 
+                                hover:shadow-lg hover:border-blue-400 transition-all duration-300">
 
-                        {{-- Logo + Name --}}
-                        <div class="flex items-center gap-3 mb-4">
+                        {{-- Logo & Basic Info --}}
+                        <div class="flex items-center gap-4 mb-4">
                             @if($employer->logo)
                                 <img src="{{ asset('storage/' . $employer->logo) }}" 
-                                    alt="{{ $employer->name }}" 
-                                    class="h-10 w-10 rounded-full object-cover border border-gray-200">
+                                     alt="{{ $employer->name }}" 
+                                     class="h-12 w-12 rounded-full object-cover border border-gray-200">
                             @else
-                                <div class="h-10 w-10 flex items-center justify-center rounded-full bg-gradient-to-r from-blue-50 to-blue-100 text-blue-600 font-bold text-sm">
+                                <div class="h-12 w-12 flex items-center justify-center rounded-full bg-gradient-to-r from-blue-50 to-blue-100 text-blue-600 font-bold">
                                     {{ strtoupper(substr($employer->name, 0, 2)) }}
                                 </div>
                             @endif
+
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors duration-300">
+                                <a href="/employers/{{ $employer->id }}" 
+                                   class="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition">
                                     {{ $employer->name }}
-                                </h3>
-                                <p class="text-sm text-gray-600">{{ $employer->industry }}</p>
+                                </a>
+                                <p class="text-sm text-gray-500">{{ $employer->industry }}</p>
                             </div>
                         </div>
 
-                        {{-- Active Jobs --}}
-                        <div class="flex items-center gap-2">
-                            <span class="px-3 py-1 rounded-full bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 font-medium text-xs">
-                                💼 {{ $employer->jobs_count }} Active Jobs
-                            </span>
+                        {{-- Short Description --}}
+                        <p class="text-sm text-gray-600 leading-relaxed line-clamp-3 mb-4">
+                            {{ $employer->description }}
+                        </p>
+
+                        {{-- Stats & Actions --}}
+                        <div class="flex items-center justify-between mt-4">
+                            
+                            <div class="flex gap-2">
+                                
+                                {{-- Ratings as Button --}}
+                                <a href="/employers/reviews/{{ $employer->id }}" 
+                                class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100">
+                                    ⭐ 
+                                    @if($employer->reviews_avg_rating)
+                                        <span>{{ number_format($employer->reviews_avg_rating, 1) }}/5</span>
+                                    @else
+                                        <span>No ratings yet</span>
+                                    @endif
+                                </a>
+
+                                {{-- Active Jobs as Button --}}
+                                <a href="/employers/jobs/{{ $employer->id }}" 
+                                class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-500">
+                                    💼 <span>{{ $employer->jobs_count }} Active Jobs</span>
+                                </a>
+                            </div>
                         </div>
 
-                        {{-- Footer --}}
-                        <div class="mt-4 flex items-center justify-between text-xs text-gray-400">
-                            <span>🏢 Employer</span>
-                            <span class="font-medium text-blue-500 group-hover:underline">View Profile →</span>
-                        </div>
-                    </a>
+                    </div>
                 @endforeach
             </div>
         </section>
