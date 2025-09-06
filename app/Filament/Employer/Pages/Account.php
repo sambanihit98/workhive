@@ -258,6 +258,7 @@ class Account extends Page
             FileUpload::make('logo')
                 ->label('Upload Employer Logo')
                 ->image() // restricts to images
+                ->disk('public')
                 ->directory('logos') // stores in storage/app/public/logos
                 ->visibility('public') // makes it publicly accessible
                 ->required(false)
