@@ -22,7 +22,7 @@ class Search extends Component
         $jobs = Job::with(['tags', 'employer'])
             ->when(
                 $this->q,
-                fn($query) => $query->where('title', 'LIKE', "%{$this->q}%")
+                fn($query) => $query->whereRaw('LOWER(title) LIKE ?', ['%' . strtolower($this->q) . '%'])
             )
             ->paginate(10);
 

@@ -24,7 +24,7 @@ class Search extends Component
             ->when(
                 $this->q,
                 fn($query) =>
-                $query->where('name', 'LIKE', "%{$this->q}%")
+                $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($this->q) . '%'])
             )
             ->paginate(10);
 
