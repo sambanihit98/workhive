@@ -5,7 +5,7 @@
             @if($job->employer->logo)
                 {{-- Employer Logo --}}
                 <div class="shrink-0">
-                    <img src="{{ asset($job->employer->logo) }}" 
+                    <img src="{{ asset('storage/' . $job->employer->logo) }}" 
                         alt="{{ $job->employer->name }}" 
                         class="w-24 h-24 object-contain rounded-xl shadow-sm border border-gray-200 bg-white p-2">
                 </div>
