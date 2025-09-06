@@ -1,4 +1,4 @@
-<div class="space-y-10 max-w-[1200px] mx-auto mt-30 px-4">
+<div class="space-y-10 max-w-[1200px] mx-auto mt-30 px-4 md:px-0">
 
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Terms and Conditions</h1>
     <p class="text-gray-600">Welcome to <strong>WorkHive</strong>. By using our platform, you agree to comply with the following terms and conditions. Please read them carefully before creating an account or posting any jobs.</p>
