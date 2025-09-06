@@ -233,8 +233,7 @@ class Account extends Page
                 ]),
 
                 Section::make('Contact Details')->schema([
-                    TextInput::make('website')
-                        ->required(),
+                    TextInput::make('website'),
 
                     Grid::make(2)->schema([
                         TextInput::make('email')
