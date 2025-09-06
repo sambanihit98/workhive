@@ -22,6 +22,7 @@
     x-transition:leave="transition-opacity duration-500"
     x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
+    x-cloak
     class="fixed bottom-0 right-0 z-20 m-2 border-t-4 rounded-b px-4 py-5 shadow-md"
     :class="statusClasses[status]?.[0] ?? statusClasses['Success'][0]"
     role="alert"
