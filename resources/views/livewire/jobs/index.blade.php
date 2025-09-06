@@ -2,7 +2,7 @@
     {{-- Header Section --}}
     <section class="text-center">
         <h1 class="font-extrabold text-4xl text-gray-800">
-            💼 Explore the Latest <span class="text-blue-600">Jobs</span>
+            Explore the Latest <span class="text-blue-600">Jobs</span>
         </h1>
         <p class="mt-3 text-gray-600 max-w-2xl mx-auto">
             Discover opportunities that match your skills and passion.  

@@ -3,7 +3,7 @@
     {{-- Page Heading --}}
     <section class="text-center mb-12">
         <h1 class="font-extrabold text-4xl text-gray-800">
-            🔍 Search Results for <span class="text-blue-600">Employers</span>
+            Search Results for <span class="text-blue-600">Employers</span>
         </h1>
         <p class="mt-3 text-gray-600 max-w-2xl mx-auto">
             We found 

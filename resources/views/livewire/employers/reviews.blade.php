@@ -1,19 +1,25 @@
 <div class="bg-gray-50 py-12 pt-30">
     <div class="px-4 md:px-0 max-w-[1200px] mx-auto">
-        <h2 class="text-2xl md:text-3xl font-extrabold text-gray-800 mb-2 flex items-center gap-2">
-            <span>Reviews for</span> 
-            <a href="/employers/{{ $employer->id }}"> <span class="text-blue-600 hover:underline">{{ $employer->name }} </span></a>
+        <!-- Header: stacked on mobile, inline on md+ -->
+        <h2 class="text-2xl md:text-3xl font-extrabold text-gray-800 mb-2 text-center md:text-left">
+            <span class="block text-base md:text-lg text-gray-800 leading-tight">Reviews for</span>
+            <a href="/employers/{{ $employer->id }}" 
+               class="block mt-1 md:mt-0 text-blue-600 hover:underline text-xl md:text-3xl font-extrabold leading-tight break-words">
+               {{ $employer->name }}
+            </a>
         </h2>
-        <p class="text-gray-600 text-base md:text-sm mb-10 flex items-center gap-2">
-            Hear what people are saying about working with <span class="font-semibold text-gray-800">{{$employer->name}}</span>.
+
+        <!-- Short, cleaner subheading -->
+        <p class="text-gray-600 text-sm md:text-base mb-8 max-w-prose md:max-w-[800px] mx-auto md:mx-0 leading-relaxed text-center md:text-left">
+            Read honest reviews from people who’ve worked with <span class="font-semibold text-gray-800">{{ $employer->name }}</span>.
         </p>
 
         <!-- Overall Rating + My Review -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
             
-            <!-- Overall Rating (1 col) -->
-            <div class="col-span-1 flex">
-                <div class="p-6 h-full flex flex-1 flex-col justify-center bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-2xl shadow-md">
+            <!-- Overall Rating (full width on mobile) -->
+            <div class="col-span-1 flex w-full order-1 md:order-1">
+                <div class="w-full p-6 h-full flex flex-col justify-center bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-2xl shadow-md">
                     <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">🌟 Overall Rating</h3>
                     
                     @if($totalReviews > 0)
@@ -43,23 +49,20 @@
                 </div>
             </div>
 
-            <!-- My Review Section (3 cols) -->
-            <div class="col-span-3 flex" x-data="{ showAddReviewModal: false }" >
+            <!-- My Review Section (spans 3 cols on md+, full width on mobile) -->
+            <div class="col-span-1 md:col-span-3 flex w-full order-2 md:order-2" x-data="{ showAddReviewModal: false }" >
                 @auth
                     @php
                         $myReview = $reviews->firstWhere('user_id', auth()->id());
                     @endphp
 
                     @if($myReview)
-                        <div class="flex-1 p-6 bg-blue-50 border border-blue-200 rounded-2xl shadow-sm h-full">
+                        <div class="w-full p-6 bg-blue-50 border border-blue-200 rounded-2xl shadow-sm h-full">
                             <div class="flex items-center justify-between mb-2">
-                                <h3 class="text-lg font-bold text-blue-700 flex items-center gap-2">
-                                    <span>✨ Your Review</span>
-                                </h3>
-                               <!-- Edit & Delete Actions (Icons Only) -->
+                                <h3 class="text-lg font-bold text-blue-700 flex items-center gap-2"><span>✨ Your Review</span></h3>
+
+                                <!-- Edit & Delete Actions (Icons Only) -->
                                 <div class="flex gap-2" x-data="{ showEditReviewModal: false, showDeleteReviewModal: false }">
-                                    {{-- --------------------------------- --}}
-                                    <!-- Edit Icon -->
                                     <button 
                                         @click="showEditReviewModal = true"
                                         class="p-2 bg-yellow-400 text-white rounded hover:bg-yellow-500 transition"
@@ -72,8 +75,7 @@
                                     <div x-show="showEditReviewModal">
                                         @livewire('employers.modals.edit-review', ['review_id' => $myReview->id], key('edit-review-'.$myReview->id))
                                     </div>
-                                    {{-- --------------------------------- --}}
-                                    <!-- Delete Icon -->
+
                                     <button 
                                         @click="showDeleteReviewModal = true"
                                         class="p-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
@@ -86,10 +88,7 @@
                                     <div x-show="showDeleteReviewModal">
                                         @livewire('employers.modals.delete-review', ['review_id' => $myReview->id], key('delete-review-'.$myReview->id))
                                     </div>
-                                    {{-- --------------------------------- --}}
-                                    {{-- --------------------------------- --}}
                                 </div>
-
                             </div>
 
                             <div class="flex items-center justify-between">
@@ -123,7 +122,7 @@
                         </div>
                     @else
 
-                    <div class="flex-1">
+                    <div class="w-full">
                         <div class="p-6 bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-2xl shadow-sm h-full">
                             <h3 class="text-lg font-bold text-blue-700 mb-2 text-center">✨ Share Your Experience</h3>
                             <p class="text-gray-600 mb-4 text-center">You haven’t left a review yet. Let others know what it’s like working with <strong>{{ $employer->name }}</strong>!</p>
@@ -142,7 +141,7 @@
 
                     @endif
                 @else
-                    <div class="flex-1 p-6 bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-200 rounded-2xl shadow-sm h-full text-center">
+                    <div class="w-full p-6 bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-200 rounded-2xl shadow-sm h-full text-center">
                         <h3 class="text-lg font-bold text-gray-700 mb-2">✨ Want to leave a review?</h3>
                         <p class="text-gray-600 mb-4">Please <a href="{{ route('login') }}" class="text-blue-600 underline">log in</a> to share your experience with <strong>{{ $employer->name }}</strong>.</p>
                     </div>

@@ -1,4 +1,4 @@
-<div class="max-w-[1200px] mx-auto mb-16 space-y-8 pt-30">
+<div class="max-w-[1200px] mx-auto mb-16 space-y-8 pt-30 px-4">
     <!-- Heading -->
     <div class="text-center space-y-2">
         <h1 class="text-3xl font-bold text-gray-800">Create Your Account ✨</h1>

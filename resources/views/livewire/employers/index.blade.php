@@ -4,7 +4,7 @@
         {{-- Header Section --}}
         <section class="text-center">
             <h1 class="font-extrabold text-4xl text-gray-800">
-                🌟 Discover Top <span class="text-blue-600">Employers</span>
+                Discover Top <span class="text-blue-600">Employers</span>
             </h1>
             <p class="mt-3 text-gray-600 max-w-2xl mx-auto">
                 Browse companies, explore their culture, and find out who’s hiring.  
