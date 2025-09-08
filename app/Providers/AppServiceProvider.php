@@ -46,15 +46,17 @@ class AppServiceProvider extends ServiceProvider
 
         //------------------------------------
         if ($this->app->environment('production')) {
-            // Force Laravel to treat all URLs as HTTPS
             URL::forceScheme('https');
 
-            // Trust Render's proxy headers (X-Forwarded-Proto, etc.)
             Request::setTrustedProxies(
-                [$this->app->make('request')->getClientIp()],
-                Request::HEADER_X_FORWARDED_ALL
+                ['*'], // trust all proxies (safe on Render)
+                Request::HEADER_X_FORWARDED_FOR |
+                    Request::HEADER_X_FORWARDED_HOST |
+                    Request::HEADER_X_FORWARDED_PORT |
+                    Request::HEADER_X_FORWARDED_PROTO
             );
         }
+
         //------------------------------------
 
         // if (env('APP_ENV') === 'production') {
