@@ -29,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
         //not required if there's multiple panel/model
         //$this->app->bind(Authenticatable::class, Admin::class);
 
+        //-------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------
+        // VERY IMPORTANT! This solves the issue with file uploading in production environment
         URL::macro(
             'alternateHasCorrectSignature',
             function (Request $request, $absolute = true, array $ignoreQuery = []) {
@@ -64,6 +67,8 @@ class AppServiceProvider extends ServiceProvider
         Request::macro('hasValidSignature', function ($absolute = true, array $ignoreQuery = []) {
             return URL::alternateHasValidSignature($this, $absolute, $ignoreQuery);
         });
+        //-------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------
     }
 
     /**
@@ -82,9 +87,7 @@ class AppServiceProvider extends ServiceProvider
         Route::aliasMiddleware('auth.multi', AuthPanelUser::class);
 
         //------------------------------------
-        // if (env('APP_ENV') === 'production') {
-        //     URL::forceScheme('https');
-        // }
+        // VERY IMPORTANT! This solves the issue with file uploading in production environment
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
