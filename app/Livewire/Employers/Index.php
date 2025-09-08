@@ -12,7 +12,7 @@ class Index extends Component
     {
 
         $employers = Employer::withCount('jobs')
-            ->withAvg('reviews', 'rating') // ⬅️ calculates average rating
+            ->withAvg('reviews', 'rating') // calculates average rating
             ->paginate(15);
 
         return view('livewire.employers.index', ['employers' => $employers]);

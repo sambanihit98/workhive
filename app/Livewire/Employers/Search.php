@@ -21,6 +21,8 @@ class Search extends Component
     public function render()
     {
         $employers = Employer::query()
+            ->withCount('jobs')               // include total jobs
+            ->withAvg('reviews', 'rating')    // include average rating
             ->when(
                 $this->q,
                 fn($query) =>
