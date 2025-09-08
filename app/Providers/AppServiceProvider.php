@@ -45,21 +45,21 @@ class AppServiceProvider extends ServiceProvider
         Route::aliasMiddleware('auth.multi', AuthPanelUser::class);
 
         //------------------------------------
-        if ($this->app->environment('production')) {
-            // Force Laravel to treat all URLs as HTTPS
-            URL::forceScheme('https');
+        // if ($this->app->environment('production')) {
+        //     // Force Laravel to treat all URLs as HTTPS
+        //     URL::forceScheme('https');
 
-            // Trust Render's proxy headers (X-Forwarded-Proto, etc.)
-            Request::setTrustedProxies(
-                [$this->app->make('request')->getClientIp()],
-                Request::HEADER_X_FORWARDED_ALL
-            );
-        }
+        //     // Trust Render's proxy headers (X-Forwarded-Proto, etc.)
+        //     Request::setTrustedProxies(
+        //         [$this->app->make('request')->getClientIp()],
+        //         Request::HEADER_X_FORWARDED_ALL
+        //     );
+        // }
         //------------------------------------
 
-        // if (env('APP_ENV') === 'production') {
-        //     URL::forceScheme('https');
-        // }
+        if (env('APP_ENV') === 'production') {
+            URL::forceScheme('https');
+        }
     }
 
     protected $policies = [
