@@ -1,4 +1,4 @@
 *.sqlite
-*.sql
-*.exe
-backup*
+.sql
+.exe
+/backup*
